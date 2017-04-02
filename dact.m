@@ -8,8 +8,11 @@ switch fun
         return
     case 'Relu'
         return
-    case ['linear', 'softmax']
+    case 'linear'
         dx = y;
         return
-        
+    case  'softmax'
+        dx=y;
+        return
+end      
 end

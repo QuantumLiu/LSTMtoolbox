@@ -14,8 +14,8 @@ layer.prelayer_type=prelayer.type;
 %The hiddensize of the layer
 layer.hiddensize=hiddensize;
 
-layer.batch=0;
-layer.epoch=0;
+layer.batch=1;
+layer.epoch=1;
 %% lstm layer attributes
 %Timestep 
 layer.timestep=timestep;

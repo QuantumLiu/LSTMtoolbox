@@ -14,4 +14,8 @@ switch fun
         %y = max(x, single(0)) ;
         y=x.*(x>0);
         return
+    case 'linear'
+        y=x;
+        return
+end
 end

@@ -49,7 +49,6 @@ layer.dW=layer.dma(:,:)*layer.xh(:,:)'./batchsize;
 if layer.prelayer_type~='input'
     layer.dx=layer.W(:,r_x-1)*sq(layer.xh(r_x-1,1:end-1,:));
 end
-layer.batch=layer.batch+1;
 end
 function a=sq(a)
 a=reshape(a,size(a,1),[]);
