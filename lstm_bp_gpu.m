@@ -1,6 +1,9 @@
-function layer=lstm_bp_gpu(layer,e)
-if ~isequal(size(e),layer.output_shape)
-    error('Shape unmatched!')
+function layer=lstm_bp_gpu(layer,next_layer)
+if isequal(class(next_layer),'struct')
+    if ~isequal(size(next_layer.dx),layer.output_shape)
+        error('Shape unmatched!')
+    end
+    layer.e=next_layer.dx;
 end
 timestep=layer.timestep;
 hiddensize=layer.hiddensize;
@@ -16,7 +19,7 @@ r_tc=3*hiddensize+1:4*hiddensize;
 %% Backpropagation through time
 for t=timestep:-1:2
 % d_h(t) = e(t) + d_a(t+1)*W
-layer.dh(:,t,:)=sq(e(:,t,:))+layer.W(:,r_h)'*sq(layer.dma(:,t+1,:));
+layer.dh(:,t,:)=sq(layer.e(:,t,:))+layer.W(:,r_h)'*sq(layer.dma(:,t+1,:));
 % d_c(t) = d_h(t) .* o(t) * tanh'(c(t))
 layer.dsc(:,t,:)=layer.dh(:,t,:).*layer.mb(r_o,t,:).*layer.dact_h(layer.sc(:,t,:));
 %db_o(t) = d_h(t) * bc(t)
@@ -32,8 +35,8 @@ layer.dma(r_ifo,t,:)=layer.dact_f(layer.mb(r_ifo,t,:)).*layer.dmb(r_ifo,t,:);
 layer.dma(r_tc,t,:)=layer.dact_tc(layer.ma(r_tc,t,:)).*layer.dmb(r_tc,t,:);
 end
 t=1;
-layer.dh(:,t,:)=sq(e(:,t,:))+layer.W(:,r_h)'*sq(layer.dma(:,t+1,:));
-layer.dsc(:,t,:)=layer.dh(:,t,:).*layer.mb(r_o,t,:).*act_dh(layer.sc(:,t,:));
+layer.dh(:,t,:)=sq(layer.e(:,t,:))+layer.W(:,r_h)'*sq(layer.dma(:,t+1,:));
+layer.dsc(:,t,:)=layer.dh(:,t,:).*layer.mb(r_o,t,:).*layer.act_h(layer.sc(:,t,:));
 layer.dmb(r_o,t,:)=layer.dh(:,t,:).*layer.bc(:,t,:);
 layer.dmb(r_i,t,:)=layer.dsc(:,t,:).*layer.mb(r_tc,t,:);
 layer.dmb(r_tc,t,:)=layer.dsc(:,t,:).*layer.mb(r_i,t,:);
@@ -43,9 +46,10 @@ layer.dma(r_tc,t,:)=layer.dact_tc(layer.ma(r_tc,t,:)).*layer.dmb(r_tc,t,:);
 layer.dma(r_f,2:end,:)=layer.dma(r_f,2:end,:)./(timestep-1);
 layer.dma(hiddensize+1:end,:)=layer.dma(hiddensize+1:end,:)./timestep;
 layer.dW=layer.dma(:,:)*layer.xh(:,:)'./batchsize;
-if layer.conected_type~='input'
+if layer.prelayer_type~='input'
     layer.dx=layer.W(:,r_x-1)*sq(layer.xh(r_x-1,1:end-1,:));
 end
+layer.batch=layer.batch+1;
 end
 function a=sq(a)
 a=reshape(a,size(a,1),[]);

@@ -1,8 +1,7 @@
-function layer=lstm_ff_gpu(layer,input)
-if ~isequal(size(input),layer.input_shape)
+function layer=lstm_ff_gpu(layer,prelayer)
+if ~isequal(size(prelayer.output),layer.input_shape)
     error('Shape unmatched!')
 end
-layer.input=input;
 timestep=layer.timestep;
 hiddensize=layer.hiddensize;
 dim=layer.input_shape(1);
@@ -15,8 +14,7 @@ r_o=2*hiddensize+1:3*hiddensize;%~output gate
 r_tc=3*hiddensize+1:4*hiddensize;%range of tilde c gate
 %the xh is a 2d tensor contain x,bias,and h,((r_x)-1,1:end-1,:) is the area of x
 %assign value from input tensor
-layer.xh(r_x(1:end-1),1:end-1,:)=layer.input;
-
+layer.xh(r_x(1:end-1),1:end-1,:)=prelayer.output;
 %compute all x(t)*W_x+bias in one time at first
 layer.maX(:)=layer.W(:,r_x)*sq(layer.xh(r_x,1:end-1,:));
 

@@ -11,6 +11,7 @@ switch fun
         y =  E./ sum(E,1) ;
         return
     case 'Relu'
-        y = max(x, single(0)) ;
+        %y = max(x, single(0)) ;
+        y=x.*(x>0);
         return
 end
