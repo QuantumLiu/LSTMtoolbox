@@ -7,7 +7,6 @@ layer.input_shape=input_shape;
 layer.output_shape=input_shape;
 %The type of the layer
 layer.type=type;
-layer.output=zeros(input_shape,'single','gpuArray');
 if nargin<=2
     return
 elseif nargin>2

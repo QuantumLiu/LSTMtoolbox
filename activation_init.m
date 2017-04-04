@@ -10,11 +10,11 @@ layer.epoch=1;
 layer.input_shape=prelayer.output_shape;
 layer.output_shape=prelayer.output_shape;
 
-layer.input=prelayer.output;
+% layer.input=prelayer.output;
 layer.output=prelayer.output;
 
 if ~strcmpi(layer.prelayer_type,'input')
-    layer.dx=layer.input;
+    layer.dx=layer.output;
 end
 layer.e=layer.output;
 
