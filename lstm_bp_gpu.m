@@ -36,16 +36,16 @@ for t=timestep:-1:2
     layer.dmb(r_f,t,:)=layer.dsc(:,t,:).*layer.sc(:,t-1,:);
     %da=act'(b).*db
     layer.dma(r_ifo,t,:)=layer.dact_f(layer.mb(r_ifo,t,:)).*layer.dmb(r_ifo,t,:);
-    layer.dma(r_tc,t,:)=layer.dact_tc(layer.ma(r_tc,t,:)).*layer.dmb(r_tc,t,:);
+    layer.dma(r_tc,t,:)=layer.dact_tc(layer.mb(r_tc,t,:)).*layer.dmb(r_tc,t,:);
 end
 t=1;
 layer.dh(:,t,:)=sq(layer.e(:,t,:))+layer.W(:,r_h)'*sq(layer.dma(:,t+1,:));
-layer.dsc(:,t,:)=layer.dh(:,t,:).*layer.mb(r_o,t,:).*layer.act_h(layer.sc(:,t,:));
+layer.dsc(:,t,:)=layer.dh(:,t,:).*layer.mb(r_o,t,:).*layer.dact_h(layer.sc(:,t,:));
 layer.dmb(r_o,t,:)=layer.dh(:,t,:).*layer.bc(:,t,:);
 layer.dmb(r_i,t,:)=layer.dsc(:,t,:).*layer.mb(r_tc,t,:);
 layer.dmb(r_tc,t,:)=layer.dsc(:,t,:).*layer.mb(r_i,t,:);
 layer.dma(r_ifo,t,:)=layer.dact_f(layer.mb(r_ifo,t,:)).*layer.dmb(r_ifo,t,:);
-layer.dma(r_tc,t,:)=layer.dact_tc(layer.ma(r_tc,t,:)).*layer.dmb(r_tc,t,:);
+layer.dma(r_tc,t,:)=layer.dact_tc(layer.mb(r_tc,t,:)).*layer.dmb(r_tc,t,:);
 
 layer.dma(r_f,2:end,:)=layer.dma(r_f,2:end,:)./(timestep-1);
 layer.dma(hiddensize+1:end,:)=layer.dma(hiddensize+1:end,:)./timestep;

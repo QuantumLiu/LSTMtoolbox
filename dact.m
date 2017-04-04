@@ -4,15 +4,16 @@ switch fun
         dx = y .* (1 - y);
         return
     case 'tanh'
-        dx=1-tanh(y).^2;
+        dx=1-y.^2;
         return
     case 'Relu'
+        dx=(y>single(0));
         return
     case 'linear'
         dx = y;
         return
     case  'softmax'
-        dx=y;
+        dx=y-1;
         return
 end      
 end
