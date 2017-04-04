@@ -27,5 +27,9 @@ elseif nargin>2
     [layer.loss_f,layer.loss_df]=loss_handle(loss);
     layer.loss=[];
 end
+layer.ff=@(layer,prelayer)dense_ff_gpu(layer,prelayer);
+layer.bp=@(layer,next_layer)dense_bp_gpu(layer,next_layer);
+layer.trainable=1;
+layer.opt=@(layer,pars)layer_optimize(layer,pars);
 end
 

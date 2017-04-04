@@ -67,6 +67,8 @@ layer.act_h = @(x)act(x, 'tanh');
 layer.dact_f= @(x)dact(x,'sigmoid');
 layer.dact_tc =@(x)dact(x, 'tanh'); % active function for tc
 layer.dact_h = @(x)dact(x, 'tanh');
-% layer.learningrate = opts.learningrate;
-% layer.momentum = opts.momentum;
+layer.ff=@(layer,prelayer)lstm_ff_gpu(layer,prelayer);
+layer.bp=@(layer,next_layer)lstm_bp_gpu(layer,next_layer);
+layer.trainable=1;
+layer.opt=@(layer,pars)layer_optimize(layer,pars);
 end

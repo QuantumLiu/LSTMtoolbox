@@ -24,5 +24,8 @@ if nargin>2
 end
 layer.act=@(x)act(x,act_fun); 
 layer.dact=@(x)dact(x,act_fun); 
+layer.ff=@(layer,prelayer)activation_ff(layer,prelayer);
+layer.bp=@(layer,next_layer)activation_bp(layer,next_layer);
+layer.trainable=0;
 end
 

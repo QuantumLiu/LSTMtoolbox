@@ -4,6 +4,7 @@ loss=feval(@(x)mean(x(:)),outputlayer.loss_f(y_true,outputlayer.output,num));
 outputlayer.loss=[outputlayer.loss,loss];
 if isequal(outputlayer.type,'lstm')&& ~outputlayer.return_sequence
 outputlayer.e(:,end,:)=-loss.*outputlayer.loss_df(y_true,outputlayer.output,num);
+else
 outputlayer.e=-loss.*outputlayer.loss_df(y_true,outputlayer.output,num);
 end
-
+end

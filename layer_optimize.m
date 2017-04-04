@@ -1,5 +1,4 @@
-function layer=layer_optimize(layer,pars)
-batch=layer.batch;
+function layer=layer_optimize(layer,pars,batch,epoch)
 if nargin <2
     pars.opt='sgd';
 end
@@ -17,5 +16,6 @@ switch pars.opt
             layer.W=layer.W+pars.learningrate*layer.dW;
         end
 end
-layer.batch=layer.batch+1;
+layer.batch=batch;
+layer.epoch=epoch;
 end
