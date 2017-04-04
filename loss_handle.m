@@ -12,7 +12,7 @@ switch type
         df=matlabFunction(diff(symsf,y_pred));
         return   
     case 'categorical_cross_entropy'
-        symsf(y_true,y_pred,num)=(-1/num).*(log(y_true.*y_pred+0.0001));
+        symsf(y_true,y_pred,num)=(-1/num).*y_true.*log(y_pred);
         f=matlabFunction(symsf);
         df=matlabFunction(diff(symsf,y_pred));
 end
