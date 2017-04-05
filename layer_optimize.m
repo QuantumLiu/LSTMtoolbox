@@ -8,12 +8,11 @@ switch pars.opt
             if batch==1
                 layer.vW=pars.learningrate*layer.dW;
             else
-                layer.vW=pars.momentum*layer.vW-pars.learningrate*layer.dW;
-                layer.dW=layer.vW;
+                layer.vW=pars.momentum*layer.vW+pars.learningrate*layer.dW;
             end
-            layer.W=layer.W+layer.dW;
+            layer.W=layer.W-layer.vW;
         else
-            layer.W=layer.W+pars.learningrate*layer.dW;
+            layer.W=layer.W-pars.learningrate*layer.dW;
         end
 end
 layer.batch=batch;

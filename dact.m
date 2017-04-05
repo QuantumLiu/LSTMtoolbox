@@ -13,7 +13,7 @@ switch fun
         dx = y;
         return
     case  'softmax'
-        dx=y-1;
+        dx=y;
         return
 end      
 end

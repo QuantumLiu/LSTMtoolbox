@@ -2,6 +2,8 @@ function layer=lstm_init_gpu(prelayer,hiddensize,return_sequence,loss)
 %% Basic layer attributes
 %Input tensor sahpe
 layer.input_shape=prelayer.output_shape;
+layer.trainable=1;
+
 dim=prelayer.output_shape(1);
 timestep=prelayer.output_shape(2);
 batchsize=prelayer.output_shape(3);
@@ -69,6 +71,4 @@ layer.dact_tc =@(x)dact(x, 'tanh'); % active function for tc
 layer.dact_h = @(x)dact(x, 'tanh');
 layer.ff=@(layer,prelayer)lstm_ff_gpu(layer,prelayer);
 layer.bp=@(layer,next_layer)lstm_bp_gpu(layer,next_layer);
-layer.trainable=1;
-layer.opt=@(layer,pars)layer_optimize(layer,pars);
 end

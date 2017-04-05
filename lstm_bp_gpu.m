@@ -51,7 +51,7 @@ layer.dma(r_f,2:end,:)=layer.dma(r_f,2:end,:)./(timestep-1);
 layer.dma(hiddensize+1:end,:)=layer.dma(hiddensize+1:end,:)./timestep;
 layer.dW=layer.dma(:,:)*layer.xh(:,:)'./batchsize;
 if ~isequal(layer.prelayer_type,'input')
-    layer.dx(:)=layer.W(:,r_x(1:end-1))'*sq(layer.dma(:,1:end-1,:));
+    layer.dx(:)=layer.W(:,r_x(1:end-1))'*sq(layer.dma(:,1:end-1,:))./batchsize;
 end
 end
 function a=sq(a)
