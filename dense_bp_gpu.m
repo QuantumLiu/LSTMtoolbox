@@ -5,8 +5,15 @@ if isequal(class(next_layer),'struct')
     end
     layer.e=next_layer.dx;
 end
-layer.dW=layer.e*layer.input';
+layer.dW=sq(layer.e)*sq(layer.input)';
 if ~isequal(layer.prelayer_type,'input')
-    layer.dx=layer.W(:,1:end-1)'*layer.e;
+    if layer.timedistributed
+        layer.dx(:)=layer.W(:,1:end-1)'*sq(layer.e);
+    else
+        layer.dx=layer.W(:,1:end-1)'*layer.e;
+    end
 end
+end
+function a=sq(a)
+a=reshape(a,size(a,1),[]);
 end

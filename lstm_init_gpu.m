@@ -36,7 +36,7 @@ layer.n=batchsize*timestep;
 layer.xh=ones([dim+1+hiddensize,timestep+1,batchsize],'single','gpuArray');
 %W is the weights of all four gates and bias
 layer.weights_dim=dim+1+hiddensize;
-layer.W=rand([4*hiddensize,layer.weights_dim],'single','gpuArray')-0.5;
+layer.W=(rand([4*hiddensize,layer.weights_dim],'single','gpuArray')-0.5)./100;
 %Compute the value of x_t*wx_t for all ts in one time
 layer.maX=zeros([4*hiddensize,timestep,batchsize],'single','gpuArray');
 %value before activited

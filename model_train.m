@@ -33,10 +33,11 @@ for epoch=1:nb_epoch
         else
             error('The number of dims of output data must be 2/3');
         end
-        loss=model.layers{end-1}.loss(end);
+        loss=num2str(model.layers{end-1}.loss(end)+0.000005);
         model.loss=model.layers{end-1}.loss;
         if verbose
-        message=['Training model ','Epoch: ',num2str(epoch),'/',num2str(nb_epoch), 'Progress: ',num2str(100*g_batch/nb_batch),'%'];
+        pro=num2str(0.000005+100*g_batch/nb_batch);
+        message=['Training model ','Epoch: ',num2str(epoch),'/',num2str(nb_epoch), ' Progress: ',pro(1:5),'%',' loss: ',loss(1:4)];
         waitbar(g_batch/nb_batch,h,message);
         end
         %% bp

@@ -3,9 +3,24 @@ if isequal(class(prelayer),'struct')
     if ~isequal(size(prelayer.output),layer.input_shape)
         error('Shape unmatched!')
     end
-    layer.input(1:end-1,:)=prelayer.output;
+    if layer.timedistributed
+        layer.input(1:end-1,:,:)=prelayer.output;
+    else
+        layer.input(1:end-1,:)=prelayer.output;
+    end
 else
-    layer.input(1:end-1,:)=prelayer;
+    if layer.timedistributed
+        layer.input(1:end-1,:,:)=prelayer;
+    else
+        layer.input(1:end-1,:)=prelayer;
+    end
 end
-layer.output=layer.W*layer.input;
+if layer.timedistributed
+    layer.output(:)=layer.W*sq(layer.input);
+else
+    layer.output=layer.W*layer.input;
+end
+end
+function a=sq(a)
+a=reshape(a,size(a,1),[]);
 end
